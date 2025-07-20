@@ -1,75 +1,91 @@
 #ifndef MS3FUNCTIONSPECS_H
 #define MS3FUNCTIONSPECS_H
 
-#include "delivery.h"   
+#include "delivery.h"
+#include "mapping.h"
 
-/*Name:  remainingCapacityKg                                                
-
-  Description: 
-  Returns the remaining weight capacity (kg) for the given     
-  truck.  If the truck is already overweight, the function returns 0 to     
-  signal no additional cargo can be loaded. 
-
-  Parameters:                                                               
-   t – pointer to a Truck where the currentWeightKg is being 
-   maintained.
-
-  Returns:  
-  The number of kilograms that can still be loaded. If t is NULL,
-  or currentWeight >= MAX_WEIGHT, the function returns 0.
-  */
-
+/*
+* Name: remainingCapacityKg
+* Author: Mustafa Siddiqui
+* Description: Returns the remaining weight capacity (kg) for the given truck
+* Parameters:
+*   - t: pointer to the truck structure
+* Returns: Integer representing remaining weight capacity in kg, 0 if truck is NULL or at capacity
+*/
 int remainingCapacityKg(const struct Truck *t);
 
-/*Name:  remainingVolumeM3
-
-  Description: 
-  Returns the remaining volume capacity (in cubic metres) for the
-  selected truck.
-
-  Parameters:
-   t – pointer to a Truck whose currentVolume field is
-   up to date.
-
-  Returns:  
-  Cubic meters (as a double) still available. If t has no more space 
-  left or is NULL, 0.0 will be returned.
-  */
-
+/*
+* Name: remainingVolumeM3
+* Author: Mustafa Siddiqui
+* Description: Returns the remaining volume capacity (in cubic metres) for the selected truck
+* Parameters:
+*   - t: pointer to the truck structure
+* Returns: Double representing remaining volume capacity in cubic meters, 0.0 if truck is NULL or at capacity
+*/
 double remainingVolumeM3(const struct Truck *t);
 
-/*Name:  canFitShipment
-
-  Description:
-  Checks whether a shipment will be able to fit into specified truck
-  based on volume and weight limits.
-
-  Parameters:
-   t – pointer to Truck.
-   s – pointer to Shiptment.
-
-  Returns:
-  1 (True) if shipment weight is below the remainging capacity of the 
-  Truck and shipment volume is below the remaining volume of the Truck.
-  Otherwise, it returns 0.
-  */                              
+/*
+* Name: canFitShipment
+* Author: Mustafa Siddiqui
+* Description: Checks whether a shipment will be able to fit into specified truck
+* Parameters:
+*   - t: pointer to the truck structure
+*   - s: pointer to the shipment structure
+* Returns: 1 if shipment can fit (both weight and volume), 0 otherwise
+*/
 int canFitShipment(const struct Truck *t, const struct Shipment *s);
 
-/*Name:  assignShipment
-
-  Description:
-  Places the shipment in the truck array using the projects set rules 
-  provided.
-
-  Parameters:
-   trucks – array of Truck structures.
-   numTrucks - length of trucks array.
-   s - pointer to shipment to be placed.
-
-  Returns:
-  Index of the chosen truck upon the success of finding one. -1 if no truck
-  can take the shipment.
-  */
+/*
+* Name: assignShipment
+* Author: Mustafa Siddiqui
+* Description: Places the shipment in the truck array using the project's set rules.
+*              Finds the best truck for a shipment considering load, route proximity,
+*              and capacity. Returns the index of the selected truck.
+* Parameters:
+*   - trucks: array of truck structures
+*   - numTrucks: number of trucks in the array
+*   - s: pointer to the shipment to be assigned
+* Returns: Index of the truck (0-2) where shipment was assigned, or -1 if no truck can take it
+*/
 int assignShipment(struct Truck trucks[], int numTrucks, const struct Shipment *s);
 
-#endif 
+/*
+* Name: findClosestTruck
+* Author: Mustafa Siddiqui
+* Description: Finds the truck that comes closest to the destination point.
+*              Uses Euclidean distance to determine the nearest point on each truck's route.
+* Parameters:
+*   - trucks: array of truck structures
+*   - numTrucks: number of trucks in the array
+*   - destination: the destination point for delivery
+*   - map: the map containing building information
+* Returns: Index of the closest truck (0-2), or -1 if no valid route exists
+*/
+int findClosestTruck(const struct Truck trucks[], int numTrucks, const struct Point destination, const struct Map* map);
+
+/*
+* Name: calculateRouteDistance
+* Author: Mustafa Siddiqui
+* Description: Calculates the shortest distance from a truck's route to a destination point.
+*              Uses the A* algorithm to find the shortest path avoiding buildings.
+* Parameters:
+*   - truck: pointer to the truck structure
+*   - destination: the destination point
+*   - map: the map containing building information
+* Returns: Distance to destination, or -1.0 if destination is unreachable
+*/
+double calculateRouteDistance(const struct Truck* truck, const struct Point destination, const struct Map* map);
+
+/*
+* Name: addShipmentToTruck
+* Author: Mustafa Siddiqui
+* Description: Adds a shipment to the specified truck's cargo array and updates
+*              the truck's current weight and volume.
+* Parameters:
+*   - truck: pointer to the truck structure
+*   - shipment: pointer to the shipment to be added
+* Returns: 1 if shipment was successfully added, 0 otherwise
+*/
+int addShipmentToTruck(struct Truck* truck, const struct Shipment* shipment);
+
+#endif
