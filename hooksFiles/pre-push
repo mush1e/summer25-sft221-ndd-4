@@ -1,0 +1,14 @@
+#!/bin/sh
+echo "Starting test runner..."
+
+test_runner="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe"
+tests_dll="build\Debug\UnitTestProject.dll"  # adjust this to your test DLL's relative path
+
+failure_string="Failed:"
+testout=`"$test_runner" "$tests_dll"`
+if [[ $testout == *"$failure_string"* ]]; then
+    echo >&2 "Unit tests are not passing! Push aborted!"
+    exit 1
+fi
+echo >&2 "All tests run successfully."
+exit 0
