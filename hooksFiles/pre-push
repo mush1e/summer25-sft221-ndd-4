@@ -1,8 +1,7 @@
 #!/bin/sh
 echo "Starting test runner..."
 
-test_runner="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe"
-tests_dll="build\Debug\UnitTestProject.dll"  # adjust this to your test DLL's relative path
+test_runner="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe"  # adjust this to your test DLL's relative path
 
 failure_string="Failed:"
 testout=`"$test_runner" "$tests_dll"`
