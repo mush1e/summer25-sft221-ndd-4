@@ -107,17 +107,37 @@ TEST_CLASS(BB_AssignShipment)
 public:
     TEST_METHOD(BB_013_PicksFirstTruck)
     {
-        struct Truck trucks[2] = { 0 };              // both empty
+        struct Truck trucks[2] = { 0 };
         struct Shipment s = { 10, 1, {5,5} };
-        Assert::AreEqual(0, assignShipment(trucks, 2, &s));
+
+        // --- Fake a one‑point route so calculateRouteDistance returns 0 ---
+        for (int i = 0; i < 2; ++i) {
+            trucks[i].route.numPoints = 1;
+            trucks[i].route.points[0] = s.destination;
+        }
+
+        int idx = assignShipment(trucks, 2, &s);
+        Assert::AreEqual(0, idx);
     }
+
     TEST_METHOD(BB_014_PicksSecondTruck)
     {
         struct Truck trucks[2] = { 0 };
-        trucks[0].currentWeight = MAX_WEIGHT;        // first full
         struct Shipment s = { 10, 1, {5,5} };
-        Assert::AreEqual(1, assignShipment(trucks, 2, &s));
+
+        // fake routes
+        for (int i = 0; i < 2; ++i) {
+            trucks[i].route.numPoints = 1;
+            trucks[i].route.points[0] = s.destination;
+        }
+
+        // fill truck 0 so it’s skipped
+        trucks[0].currentWeight = MAX_WEIGHT;
+
+        int idx = assignShipment(trucks, 2, &s);
+        Assert::AreEqual(1, idx);
     }
+
     TEST_METHOD(BB_015_NoTruckFits)
     {
         struct Truck trucks[1] = { 0 };
