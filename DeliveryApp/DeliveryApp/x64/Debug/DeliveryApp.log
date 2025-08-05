@@ -1,3 +1,6 @@
-﻿  MS3Functions.c
+﻿  main.c
+  mapping.c
+  MS3Functions.c
 C:\Users\nelso\OneDrive\Documents\GitHub\summer25-sft221-ndd-4\SourceCode\MS3Functions.c(28,23): warning C4244: 'return': conversion from 'const double' to 'int', possible loss of data
+  Generating Code...
   DeliveryApp.vcxproj -> C:\Users\nelso\OneDrive\Documents\GitHub\summer25-sft221-ndd-4\DeliveryApp\x64\Debug\DeliveryApp.exe

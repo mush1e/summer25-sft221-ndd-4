@@ -1,2 +1,8 @@
-﻿  Tests.cpp
+﻿  pch.cpp
+  mapping.c
+  MS3Functions.c
+C:\Users\nelso\OneDrive\Documents\GitHub\summer25-sft221-ndd-4\SourceCode\MS3Functions.c(28,23): warning C4244: 'return': conversion from 'const double' to 'int', possible loss of data
+  Generating Code...
+  Tests.cpp
+     Creating library C:\Users\nelso\OneDrive\Documents\GitHub\summer25-sft221-ndd-4\DeliveryApp\x64\Debug\Tests.lib and object C:\Users\nelso\OneDrive\Documents\GitHub\summer25-sft221-ndd-4\DeliveryApp\x64\Debug\Tests.exp
   Tests.vcxproj -> C:\Users\nelso\OneDrive\Documents\GitHub\summer25-sft221-ndd-4\DeliveryApp\x64\Debug\Tests.dll
